@@ -1,19 +1,47 @@
 class Solution {
     public boolean isPalindrome(String s) {
-       s= s.toLowerCase();  // converting ever uppercase element to lower case
-       StringBuilder sb =  new StringBuilder(); // creating a stringbuilder
-       for (int i=0; i<s.length(); i++){    // iterating over string 
+    //   
+    
 
-      // now for ascai values of  all lower case alphabets and alphanumeric charaters (one check condition is applied over here)
-        if((s.charAt(i)>=97 && s.charAt(i)<=122)  ||  (s.charAt(i)>=48 && s.charAt(i)<=57) ){  
-            sb.append(s.charAt(i));  // to add chareter to string
+
+
+
+
+
+
+
+
+
+    //other solution 
+
+    final char[] charArray = s.toCharArray();
+        int left = 0;
+        int right = charArray.length - 1;
+        while (left < right) {
+            while (left < right && !((charArray[left] >= 'a' && charArray[left] <= 'z') ||
+                    (charArray[left] >= 'A' && charArray[left] <= 'Z') ||
+                    (charArray[left] >= '0' && charArray[left] <= '9'))) {
+                left++;
+            }
+            while (left < right && !((charArray[right] >= 'a' && charArray[right] <= 'z') ||
+                    (charArray[right] >= 'A' && charArray[right] <= 'Z') ||
+                    (charArray[right] >= '0' && charArray[right] <= '9'))) {
+                right--;
+            }
+            char cLeft = charArray[left];
+            char cRight = charArray[right];
+            if (cLeft >= 'A' && cLeft <= 'Z') {
+                cLeft = (char) (cLeft + 32);
+            }
+            if (cRight >= 'A' && cRight <= 'Z') {
+                cRight = (char) (cRight + 32);
+            }
+            if (cLeft != cRight) {
+                return false;
+            }
+            left++;
+            right--;
         }
-       } 
-       for (int i=0; i< sb.length()/2; i++){  // for iteration of i over string for comparision with s.length
-        if(sb.charAt(i)!= sb.charAt(sb.length()-1-i)){  // check for (i isequals or not with /from last elements )
-            return false;
-        }
-       }
-       return true ;
+        return true;
     }
 }
