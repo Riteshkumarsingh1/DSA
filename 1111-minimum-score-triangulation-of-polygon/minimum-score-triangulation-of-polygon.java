@@ -25,32 +25,22 @@
 
 
 
-
-
-
-
-
 class Solution {
-    public int minScoreTriangulation(int[] polygonValues) {
-        int vertexCount = polygonValues.length;
-        int[][] minScore = new int[vertexCount][vertexCount];
-
-        for (int gap = 2; gap < vertexCount; gap++) {
-            for (int start = 0; start + gap < vertexCount; start++) {
-                int end = start + gap;
-                int currentMinScore = Integer.MAX_VALUE;
-
-                for (int mid = start + 1; mid < end; mid++) {
-                    int triangleScore = minScore[start][mid] 
-                        + minScore[mid][end] 
-                        + polygonValues[start] * polygonValues[mid] * polygonValues[end];
-                    currentMinScore = Math.min(currentMinScore, triangleScore);
+    public int minScoreTriangulation(int[] values) {
+        int n = values.length;
+        int[][] dp = new int[n][n];
+        
+        for (int len = 3; len <= n; len++) {
+            for (int i = 0; i + len - 1 < n; i++) {
+                int j = i + len - 1;
+                int best = Integer.MAX_VALUE;
+                for (int k = i + 1; k < j; k++) {
+                    int cost = dp[i][k] + dp[k][j] + values[i] * values[k] * values[j];
+                    if (cost < best) best = cost;
                 }
-                minScore[start][end] = currentMinScore;
+                dp[i][j] = best;
             }
         }
-        return minScore[0][vertexCount - 1];
+        return n == 0 ? 0 : dp[0][n-1];
     }
-
-   
 }
