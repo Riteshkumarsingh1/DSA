@@ -1,16 +1,20 @@
 class Solution {
     public int minOperations(int[] nums) {
-        var stack = new int[nums.length + 1];
-        var top = 0;
-        var ans = 0;
-        for (var i = 0; i < nums.length; i++) {
-            while (stack[top] > nums[i]) {
-                top--;
-                ans++;
+        Stack <Integer> stack = new Stack<>();
+        int operations =0;
+
+        for (int n: nums){
+            while(!stack.isEmpty()&& stack.peek()>n){
+                stack.pop();
             }
-            if (stack[top] != nums[i])
-                stack[++top] = nums[i];
+            if(n==0){
+                continue;
+            }
+            if(stack.isEmpty()|| stack.peek()<n){
+                operations += 1;
+                stack.push(n);
+            }
         }
-        return ans + top;
+        return operations;
     }
 }
