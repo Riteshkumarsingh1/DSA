@@ -1,20 +1,32 @@
 class Solution {
+    List<String> ans;
+
     public List<String> letterCombinations(String digits) {
-        List<String> ph = Arrays.asList("abc","def","ghi","jkl","mno","pqrs","tuv","wxyz");
-        List<String> answer = new ArrayList<>();
-        if(digits.equals("")) return answer;
-        cons(digits, 0, ph, "", answer);
-        return answer;
+        ans = new ArrayList<>();
+        if (digits == null || digits.length() == 0) {
+            return ans;
+        }
+
+        pad("", digits);
+        return ans;
     }
 
-    private void cons(String digits, int i, List<String> ph, String s, List<String> answer){
-        if(i==digits.length()){
-            answer.add(s);
+    void pad(String p, String up) {
+        if (up.isEmpty()) {
+            ans.add(p);
             return;
         }
-        int number = digits.charAt(i) - '0'-2;
-        for(int j = 0;j<ph.get(number).length();j++){
-            cons(digits, i+1, ph, s+ph.get(number).charAt(j),answer);
+
+        String[] map = {
+            "", "", "abc", "def", "ghi",
+            "jkl", "mno", "pqrs", "tuv", "wxyz"
+        };
+
+        int digit = up.charAt(0) - '0';
+        String letters = map[digit];
+
+        for (int i = 0; i < letters.length(); i++) {
+            pad(p + letters.charAt(i), up.substring(1));
         }
     }
 }
